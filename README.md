@@ -92,7 +92,7 @@ It will return the following object.  It will contain a job status per job added
     ]
     
 ####Events Triggered
-Every time the job is triggered then it will emit `worker-job-success`  or `worker-job-error` event.
+The following events are available.
 
     worker.on('worker-job-success',function(result){
         // Do something as the job has triggered!
@@ -105,6 +105,11 @@ Every time the job is triggered then it will emit `worker-job-success`  or `work
     });
 
     worker.on('worker-job-waiting',function(result){
+        // Do something as the job has triggered!
+        // The status is the current jobStatus
+    });
+
+    worker.on('worker-job-stopped',function(result){
         // Do something as the job has triggered!
         // The status is the current jobStatus
     });
