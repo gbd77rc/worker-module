@@ -8,7 +8,7 @@ The job will be made up of the following.
     {
         name : "name of the job",
         pattern : "cron pattern to trigger job",
-        startJob : "the function to call when the job is triggered"
+        start : "the function to call when the job is triggered"
     }
 
 ##How to install
