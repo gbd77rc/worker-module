@@ -104,6 +104,11 @@ Every time the job is triggered then it will emit `worker-job-success`  or `work
         // The status is the current jobStatus
     });
 
+    worker.on('worker-job-waiting',function(result){
+        // Do something as the job has triggered!
+        // The status is the current jobStatus
+    });
+
 The `result` object will contain the following information
 
     {
