@@ -39,49 +39,36 @@ The job can be added using this method
     worker.add({
         name :"queue-job",
         pattern:"0 0 4 * *",  // Start at 4am every morning
-        start: function(){
-            console.log("Its 4am time to get up!");
+        start: function(jobStatus){
+            var def = q.defer();
+            setInterval(function(){
+                console.log("Its 4am time to get up!");
+                status.processed++;
+                def.resolve("Successful");
+            },500);
+            return def.promise;
         }
     });
+
+###Job Start Function
+The job start method MUST implement a promise.  The system is designed to work with a promise being returned and the method either resolving or rejecting depending on the outcome of the start method.
 
 ###Control the start/stop
 The methods to start/stop the worker are asynchronous and can be used with promises.
     
 ####Start Method    
-If the worker is already running then this method is ignore.  It will just return straight away.  If you use the continue with a promise, it will return the current status.
+If the worker is already running then this method is ignore.  It will just return straight away.
 
 To start the heartbeat in fire/forget mode then just use the command
     
     worker.start()
     
-To start the heartbeat and then continue with a promise mode then just use the command
-   
-    worker.start().then(function(status){
-        // continue on with the rest of the startup code.
-        // status object is describe the getStatus method
-    });
-
-Every time the job is triggered then it will emit `job-triggered` event.
-
-    worker.on('job-trigger',function(status){
-        // Do something as the job has triggered!
-        // The status is the current jobStatus
-    });
-    
-####Stop Method    
-If the heartbeat is already stopped then this method is ignore.  It will just return straight away.  If you use the continue with a promise, it will return the current status.
+####Stop Method
+If the heartbeat is already stopped then this method is ignore.  It will just return straight away.
 
 To stop the worker in fire/forget mode then just use the command
    
     worker.stop();
-    
-To stop the heartbeat and then continue mode then just use the command
-   
-    worker.stop().then(function(status){
-        // continue on with the rest of the shutdown code.
-        // status object is describe the he getStatus method
-    });    
-    
 
 ####Get Status Method
 To get the current status of the jobs then just use the command
@@ -97,11 +84,30 @@ It will return the following object.  It will contain a job status per job added
             nextRunTime:"",
             lastRunTime:"",
             timesRan:"",
-            processed:0,
+            processed:0,  // The only property of the jobStatus that is not automatically updated by the worker system.
             pattern:"",
             schedule:null,
             start:{}
         }
     ]
     
-    
+####Events Triggered
+Every time the job is triggered then it will emit `worker-job-success`  or `worker-job-error` event.
+
+    worker.on('worker-job-success',function(result){
+        // Do something as the job has triggered!
+        // The status is the current jobStatus
+    });
+
+    worker.on('worker-job-error',function(result){
+        // Do something as the job has triggered!
+        // The status is the current jobStatus
+    });
+
+The `result` object will contain the following information
+
+    {
+        name:"",
+        status:"",
+        results:{} // This can be a string or an object.
+    }
