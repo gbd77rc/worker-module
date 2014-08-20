@@ -53,22 +53,24 @@ The job can be added using this method
 ###Job Start Function
 The job start method MUST implement a promise.  The system is designed to work with a promise being returned and the method either resolving or rejecting depending on the outcome of the start method.
 
-###Control the start/stop
-The methods to start/stop the worker are asynchronous and can be used with promises.
-    
 ####Start Method    
-If the worker is already running then this method is ignore.  It will just return straight away.
+If the job is already running then this method is ignore.  It will just return straight away.
 
 To start the heartbeat in fire/forget mode then just use the command
     
     worker.start()
     
 ####Stop Method
-If the heartbeat is already stopped then this method is ignore.  It will just return straight away.
+If the job is already stopped then this method is ignore.  It will just return straight away.
 
 To stop the worker in fire/forget mode then just use the command
    
     worker.stop();
+    
+####Restart Method
+To restart all jobs then use without the jobName parameter.
+
+    worker.stop(jobName);    
 
 ####Get Status Method
 To get the current status of the jobs then just use the command
