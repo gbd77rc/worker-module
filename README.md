@@ -95,23 +95,19 @@ It will return the following object.  It will contain a job status per job added
 The following events are available.
 
     worker.on('worker-job-success',function(result){
-        // Do something as the job has triggered!
-        // The status is the current jobStatus
+       // Do something as the job has completed successfully
     });
 
     worker.on('worker-job-error',function(result){
-        // Do something as the job has triggered!
-        // The status is the current jobStatus
+       // Do something as the job has completed with an error
     });
 
     worker.on('worker-job-waiting',function(result){
-        // Do something as the job has triggered!
-        // The status is the current jobStatus
+        // Do something as the job has been scheduled
     });
 
     worker.on('worker-job-stopped',function(result){
-        // Do something as the job has triggered!
-        // The status is the current jobStatus
+       // Do something as the job has been stopped
     });
 
 The `result` object will contain the following information
@@ -119,5 +115,5 @@ The `result` object will contain the following information
     {
         name:"",
         status:"",
-        results:{} // This can be a string or an object.
+        results:""
     }
