@@ -28,6 +28,7 @@ It should then install the latest version.
 The following Node packages are also installed.
 
 *   q
+*   node-schedule (It has been fixed for CRON intervals so the code is in the lib folder and not as a package dependency)
     
 ##How to use
 
